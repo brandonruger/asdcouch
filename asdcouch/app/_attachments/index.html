@@ -1,29 +1,221 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>My New CouchApp</title>
-    <link rel="stylesheet" href="style/main.css" type="text/css">
-  </head>
-  <body>
-    <div id="account"></div>
 
-    <h1>Generated CouchApp</h1>
+<!--Brandon Ruger
+    ASD 1311
+    Project 3 Couch App -->
 
-    <div id="profile"></div>
-    <div id="items"></div>
-
-    <div id="sidebar">
-      <p>Edit welcome message.</p>
-      <p>Ideas: You could easily turn this into a photo sharing app, or a grocery list, or a chat room.</p>
-    </div>
-  </body>
-  <script src="vendor/couchapp/loader.js"></script>
-  <script type="text/javascript" charset="utf-8">
-    $.couch.app(function(app) {
-      $("#account").evently("account", app);
-      $("#profile").evently("profile", app);
-      $.evently.connect("#account","#profile", ["loggedIn","loggedOut"]);
-      $("#items").evently("items", app);
-    });
-  </script>
-</html>
+    <html>
+        <head>
+            <meta charset="utf-8" />
+                
+            <title>Music Collection</title>
+            
+            <meta name="HandheldFriendly" content="True" />
+	    <meta name="MobileOptimized" content="320"/>
+	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+            
+            <link rel="stylesheet" href="css/jquerymobile-structure.css" />
+            <link rel="stylesheet" href="css/jquerymobile-min.css" />
+            <link rel="stylesheet" href="css/styles.css" />
+		
+	    <!-- JavaScript is normally at the end of the body, except for Modernizr which enables HTML5 elements & feature detects -->
+	    <script src="js/libs/modernizr.custom.min.js"></script>
+                
+            
+        </head>
+    
+        <body>
+            
+            <!--Home Page-->
+            <section data-role="page" id="home" data-theme="e">
+                
+                <header data-role="header" data-position="fixed">
+                    <img src="img/logo.png" />
+                    <h1>Music Collection</h1>
+                </header>
+                
+                <section data-role="content">
+                    <a href="#addalbum" data-role="button">Add Album</a>
+                    <ul data-role="listview" data-inset="true">
+                        <li data-role="list-divider">Browse by:</li>
+                        <li><a href="#jsonpage">JSON Data</a></li>
+                        <li><a href="#xmlpage">XML Data</a></li>
+			<li><a href="#localstoragepage">Local Storage Data</a></li>
+                    </ul>
+                </section>
+                
+                <footer data-role="footer" data-position="fixed">
+                    <section data-role="navbar">
+                        <ul>
+                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
+			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
+			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
+                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
+                        </ul>
+                        
+                    </section>
+                </footer>
+                
+            </section>
+            
+            <!--Add Album Form Page-->
+            <section data-role="page" id="addalbum" data-add-back-btn="true" data-theme="e">
+                
+                <header data-role="header" data-position="fixed">
+                    <img src="img/logo.png" />
+                    <h1>Add Album</h1>
+                </header>
+                
+                <section data-role="content">
+                    
+                    <form action="#" method="post" id="addAlbumForm">
+                        
+                        <section data-role="fieldcontain">
+                            <label>Artist: (Required)</label>
+                            <input id="artist" type="text" name="artist" class="required" placeholder="Enter artist's name." data-clear-btn="true" />
+                            <p>Example: Imagine Dragons</p>
+                        </section>
+                        
+                        <section data-role="fieldcontain">
+                            <label>Album Title: (Required)</label>
+                            <input id="album" type="text" name="album" class="required" placeholder="Enter album name." data-clear-btn="true" />
+                            <p>Example: Night Visions</p>
+                        </section>
+                        
+                        <section data-role="fieldcontain">
+                            <label for="format">Music Format:</label>
+                            <select name="format" id="format">
+                                <option data-placeholder="true">Select album type.</option>
+                                <option value="cd">CD</option>
+                                <option value="mp3">Mp3</option>
+                                <option value="vinyl">Vinyl</option>
+                            </select>
+                        </section>
+                        
+                        <section data-role="fieldcontain">
+                            <label for="date">Release Date:</label>
+                            <input type="date" name="date" id="date" />
+                            <p>Example: Dec 3, 2013</p>
+                        </section>
+        
+                        <section data-role="fieldcontain">
+                            <label for="notes">Notes:</label>
+                            <textarea id="notes" placeholder="Enter notes here."></textarea>
+                        </section>
+                        
+                        <section data-role="fieldcontain">
+                            <input type="submit" id="saveAlbumButton" value="Save Album" />                            
+                        </section>
+                        
+                        <section data-role="fieldcontain">
+			    <ul>
+			    <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
+			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
+			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
+                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
+			    </ul>
+                        </section>
+                        
+                    </form>
+                    
+                </section>
+            </section>
+                
+                <!--JSON Items Page-->
+		
+                <section data-role="page" id="jsonpage" data-add-back-btn="true" data-theme="e">
+                    
+                    <header data-role="header" data-position="fixed">
+                        <img src="img/logo.png" />
+                        <h1>JSON Items</h1>
+                    </header>
+                    
+                    <section data-role="content" id="jsoncontent">
+                        <a href="#" id="jsonbutton" data-role="button">View JSON Data</a>
+                    
+                    </section>
+                    
+                    <footer data-role="footer" data-position="fixed">
+                        <section data-role="navbar">
+                            <ul>
+                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
+			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
+			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
+                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
+                            </ul>                            
+                        </section>
+                    </footer>
+                    
+                </section>
+		
+		<!--XML Items Page-->
+		
+                <section data-role="page" id="xmlpage" data-add-back-btn="true" data-theme="e">
+                    
+                    <header data-role="header" data-position="fixed">
+                        <img src="img/logo.png" />
+                        <h1>XML Data</h1>
+                    </header>
+                    
+                    <section data-role="content" id="xmlcontent">
+                        <a href="#" id="xmlbutton" data-role="button">View XML Data</a>
+                    
+                    </section>
+                    
+                    <footer data-role="footer" data-position="fixed">
+                        <section data-role="navbar">
+                            <ul>
+                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
+			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
+			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
+                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
+                            </ul>                            
+                        </section>
+                    </footer>
+                    
+                </section>
+		
+		<!--Local Storage Items Page-->
+		
+                <section data-role="page" id="localstoragepage" data-add-back-btn="true" data-theme="e">
+                    
+                    <header data-role="header" data-position="fixed">
+                        <img src="img/logo.png" />
+                        <h1>Local Storage Items</h1>
+                    </header>
+                    
+                    <section data-role="content" id="lscontent">
+                        <a href="#" id="lsbutton" data-role="button">View Local Storage Data</a>
+			
+			<ul>
+			    <li><a href="#" id="editData">Edit Local Storage Data</a></li>
+			    <li><a href="#" id="clearData">Clear Local Storage Data</a></li>
+			</ul>
+                    
+                    </section>
+                    
+                    <footer data-role="footer" data-position="fixed">
+                        <section data-role="navbar">
+                            <ul>
+                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
+                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
+			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
+			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
+                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
+                            </ul>                            
+                        </section>
+                    </footer>
+                    
+                </section>
+                
+            <script src="js/libs/jquery-min.js"></script>
+            <script src="js/libs/jquerymobile-min.js"></script>
+	    <script src="js/localstorage.js"></script>
+            <script src="js/main.js"></script>
+        </body>
+        
+    </html>
