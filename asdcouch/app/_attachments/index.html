@@ -14,9 +14,9 @@
 	    <meta name="MobileOptimized" content="320"/>
 	    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
             
-            <link rel="stylesheet" href="css/jquerymobile-structure.css" />
-            <link rel="stylesheet" href="css/jquerymobile-min.css" />
-            <link rel="stylesheet" href="css/styles.css" />
+            <link rel="stylesheet" href="style/jquerymobile-structure.css" />
+            <link rel="stylesheet" href="style/jquerymobile-min.css" />
+            <link rel="stylesheet" href="style/styles.css" />
 		
 	    <!-- JavaScript is normally at the end of the body, except for Modernizr which enables HTML5 elements & feature detects -->
 	    <script src="js/libs/modernizr.custom.min.js"></script>
@@ -133,7 +133,9 @@
                     </header>
                     
                     <section data-role="content" id="jsoncontent">
-                        <a href="#" id="jsonbutton" data-role="button">View JSON Data</a>
+                    	<a href="#" id="jsonbutton" data-role="button">View JSON Data</a>
+                        <ul data-role="listview" id="jsonlist">
+                        </ul>
                     
                     </section>
                     
@@ -214,7 +216,6 @@
                 
             <script src="js/libs/jquery-min.js"></script>
             <script src="js/libs/jquerymobile-min.js"></script>
-	    <script src="js/localstorage.js"></script>
             <script src="js/main.js"></script>
         </body>
         

@@ -1,0 +1,16 @@
+/* Brandon Ruger
+ * ASD 1311
+ * Project 1 */
+
+section > p {
+    margin: 0px;
+    padding: 0px;
+    font: 10pt Helvetica;
+}
+
+header > img {
+    width: 45px;
+    height: 45px;
+    position: absolute;
+    right: 0px;
+}

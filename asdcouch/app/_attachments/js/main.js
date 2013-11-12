@@ -48,27 +48,26 @@ $('#jsonpage').on('pageinit', function(){
     //Retrieve JSON data from Ajax
     
     function getJsonDataFromAjax(){
-        $("#jsoncontent").empty();
         $.ajax({
-            url: 'xhr/data.json',
+            url: '_view/albums',
             type: 'GET',
             dataType: 'json',
-            success: function(data, status){
-                console.log(data, status)
-                console.log(data);
-                $(data).each(function(){
-                    $(' '+
-                        '<div class=albums">'+
-                            '<ul>'+
-                                '<li>'+ data.album.artist +'</li>'+
-                                '<li>'+ data.album.album +'</li>'+
-                                '<li>'+ data.album.format +'</li>'+
-                                '<li>'+ data.album.date +'</li>'+
-                                '<li>'+ data.album.notes +'</li>'+
-                            '</ul>'+
-                        '</div>'
-                    ).appendTo('#jsoncontent');
-                });
+            success: function(data){
+			//This will loop through all the data in my json object.
+			//data.rows is because rows is the first section within the data that I need to loop through.
+               $.each(data.rows, function(index, value){
+               console.log(value);
+               var artist = value.value.artist;
+               var album = value.value.album;
+               var format = value.value.format;
+               var date = value.value.date;
+               var notes = value.value.notes;
+               $('#jsonlist').append(
+               		$('<li>').text(artist)
+               		);
+               })
+               
+               $('#jsonlist').listview('refresh');
             },
             error: function(error, parseerror){
                 console.log(error, parseerror)
