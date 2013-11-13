@@ -36,7 +36,7 @@ $('#addalbum').on('pageinit', function(){
             alert("Album has been added!");
     }
     
-    function getDataFromLocalStorage() {
+    	function getDataFromLocalStorage() {
         $('#addalbumform').css("display", "none");
         if (localStorage.length === 0) {
             alert("There is no data in Local Storage so default data was added.");
@@ -61,7 +61,7 @@ $('#addalbum').on('pageinit', function(){
     
         }
     }
-
+	
     
     //Dynamically create Edit & Delete Links
     function createEditDelLinks(key, newListItem) {
@@ -77,20 +77,30 @@ $('#addalbum').on('pageinit', function(){
         var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#listoflsdata").on("click", deleteReminder);
         deleteLink.key = key;
         $(deleteLink).append(newListItem);
-        
-        return key;
-        
+                
+    }
+    
+     //Auto populate Local Storage with data
+    function getLsData() {
+        //Store JSON Object into Local Storage.
+        for (var n in localStorageData) {
+            var id = Math.floor(Math.random()*10000001);
+            localStorage.setItem(id, JSON.stringify(localStorageData[n]));
+        }
     }
     
     function editReminder() {
-        console.log(this.key);
-        //Grab the data from our item from Local Storage.
+    
+    	//Grab the data from our item from Local Storage.
         var lsData = localStorage.getItem(this.key);
         console.log(lsData);
         var itemList = JSON.parse(lsData);
         console.log(itemList);
+    	
+    	$('#addalbumform').css("display", "block");	//To make form display again.
+        $('#listoflsdata').css("display", "none");	//To hide local storage data.
 
-        
+       
         //Populate form fields with current localStorage values.
         $("#artist").val(itemList.artist[1]);
         $("#album").val(itemList.album[1]);
@@ -133,14 +143,7 @@ $('#addalbum').on('pageinit', function(){
         }
     }
     
-        //Auto populate Local Storage with data
-    function getLsData() {
-        //Store JSON Object into Local Storage.
-        for (var n in localStorageData) {
-            var id = Math.floor(Math.random()*10000001);
-            localStorage.setItem(id, JSON.stringify(localStorageData[n]));
-        }
-    }
+
     
     
     var lsData = $("#displaylsdata");
