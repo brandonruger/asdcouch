@@ -108,19 +108,20 @@
                             <input type="submit" id="saveAlbumButton" value="Save Album" />                            
                         </section>
                         
-                        <section data-role="fieldcontain">
-			    <ul>
-			    <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
-                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
-			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
-			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
-                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
-			    </ul>
-                        </section>
-                        
-                    </form>
+                        </form>
+		    
+				<section data-role="listview">
+			    	<ul>
+						<li><a href="#" id="displaylsdata">Display Local Storage Data</a></li>
+						<li><a href="#" id="clearlsdata">Clear Local Storage Data</a></li>
+			    	</ul>
+				</section>
+		    
+				<section data-role="listview" id="listoflsdata">
+			    
+				</section>
                     
-                </section>
+        
             </section>
                 
                 <!--JSON Items Page-->
@@ -181,38 +182,6 @@
                     
                 </section>
 		
-		<!--Local Storage Items Page-->
-		
-                <section data-role="page" id="localstoragepage" data-add-back-btn="true" data-theme="e">
-                    
-                    <header data-role="header" data-position="fixed">
-                        <img src="img/logo.png" />
-                        <h1>Local Storage Items</h1>
-                    </header>
-                    
-                    <section data-role="content" id="lscontent">
-                        <a href="#" id="lsbutton" data-role="button">View Local Storage Data</a>
-			
-			<ul>
-			    <li><a href="#" id="editData">Edit Local Storage Data</a></li>
-			    <li><a href="#" id="clearData">Clear Local Storage Data</a></li>
-			</ul>
-                    
-                    </section>
-                    
-                    <footer data-role="footer" data-position="fixed">
-                        <section data-role="navbar">
-                            <ul>
-                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
-                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
-			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
-			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
-                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
-                            </ul>                            
-                        </section>
-                    </footer>
-                    
-                </section>
                 
             <script src="js/libs/jquery-min.js"></script>
             <script src="js/libs/jquerymobile-min.js"></script>
