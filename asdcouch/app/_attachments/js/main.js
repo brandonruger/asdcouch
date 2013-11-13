@@ -48,6 +48,7 @@ $('#jsonpage').on('pageinit', function(){
     //Retrieve JSON data from Ajax
     
     function getJsonDataFromAjax(){
+    	$('#jsonbutton').css("display", "none");
         $.ajax({
             url: '_view/albums',
             type: 'GET',
@@ -64,7 +65,12 @@ $('#jsonpage').on('pageinit', function(){
                var notes = value.value.notes;
                $('#jsonlist').append(
                		$('<li>').text(artist)
+               		.append($('<li>').text(album))
+               		.append($('<li>').text(format))
+               		.append($('<li>').text(date))
+               		.append($('<li>').text(notes))               		
                		);
+               		
                })
                
                $('#jsonlist').listview('refresh');
