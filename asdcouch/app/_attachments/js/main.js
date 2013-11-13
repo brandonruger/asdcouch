@@ -48,7 +48,7 @@ $('#jsonpage').on('pageinit', function(){
     //Retrieve JSON data from Ajax
     
     function getJsonDataFromAjax(){
-    	$('#jsonbutton').css("display", "none");
+    	$('#jsonbutton').css("display", "none"); //This will hide JSON button when user clicks it, so only data shows.
         $.ajax({
             url: '_view/albums',
             type: 'GET',
