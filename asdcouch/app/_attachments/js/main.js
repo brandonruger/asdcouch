@@ -74,7 +74,7 @@ $('#addalbum').on('pageinit', function(){
         var breakTag = $('br').appendTo("#addalbumform");
         
         //add delete single item link
-        var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#lscontent").on("click", deleteReminder);
+        var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#listoflsdata").on("click", deleteReminder);
         deleteLink.key = key;
         $(deleteLink).append(newListItem);
         
