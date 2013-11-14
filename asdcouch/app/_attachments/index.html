@@ -39,8 +39,6 @@
                     <ul data-role="listview" data-inset="true">
                         <li data-role="list-divider">Browse by:</li>
                         <li><a href="#jsonpage">JSON Data</a></li>
-                        <li><a href="#xmlpage">XML Data</a></li>
-			<li><a href="#localstoragepage">Local Storage Data</a></li>
                     </ul>
                 </section>
                 
@@ -49,8 +47,6 @@
                         <ul>
                             <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
                             <li><a href="#jsonpage" data-icon="star">JSON</a></li>
-			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
-			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
                             <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
                         </ul>
                         
@@ -109,6 +105,7 @@
                         </section>
                         
                         </form>
+                </section>
 		    
 				<section data-role="listview">
 			    	<ul>
@@ -145,48 +142,18 @@
                             <ul>
                             <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
                             <li><a href="#jsonpage" data-icon="star">JSON</a></li>
-			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
-			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
                             <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
                             </ul>                            
                         </section>
                     </footer>
                     
                 </section>
-		
-		<!--XML Items Page-->
-		
-                <section data-role="page" id="xmlpage" data-add-back-btn="true" data-theme="e">
-                    
-                    <header data-role="header" data-position="fixed">
-                        <img src="logo.png" />
-                        <h1>XML Data</h1>
-                    </header>
-                    
-                    <section data-role="content" id="xmlcontent">
-                        <a href="#" id="xmlbutton" data-role="button">View XML Data</a>
-                    
-                    </section>
-                    
-                    <footer data-role="footer" data-position="fixed">
-                        <section data-role="navbar">
-                            <ul>
-                            <li><a href="#home" data-icon="home" class="ui-btn-active">Home</a></li>
-                            <li><a href="#jsonpage" data-icon="star">JSON</a></li>
-			    <li><a href="#xmlpage" data-icon="star">XML</a></li>
-			    <li><a href="#localstoragepage" data-icon="star">Local Storage</a></li>
-                            <li><a href="#addalbum" data-icon="plus">Add Item</a></li>
-                            </ul>                            
-                        </section>
-                    </footer>
-                    
-                </section>
-		
-                
-            <script src="js/libs/jquery-min.js"></script>
-            <script src="js/libs/jquerymobile-min.js"></script>
-            <script src="js/localstorage.js"></script>
-            <script src="js/main.js"></script>
+
+		                
+            <script src="jquery-min.js"></script>
+            <script src="jquerymobile-min.js"></script>
+            <script src="localstorage.js"></script>
+            <script src="main.js"></script>
         </body>
         
     </html>

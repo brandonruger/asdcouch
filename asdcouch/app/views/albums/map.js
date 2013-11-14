@@ -1,5 +1,5 @@
 function(doc) {
-  if (doc._id.substr(0,3) === "cd:") {
+  if (doc._id.substr(0,3) === "cd:" || doc._id.substr(0,4) === "mp3:") {
     emit(doc._id, {
     	"artist": doc.artist,
     	"album": doc.album,
