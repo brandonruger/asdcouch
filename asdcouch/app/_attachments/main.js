@@ -6,9 +6,7 @@ $('#home').on('pageinit', function(){
     //code needed for home page goes here
 });
 
-$('#addalbum').on('pageinit', function(){
-    
-    //code needed for add album page goes here
+$(document).on('pageinit', '#addalbum', function(){
     
 	//code needed for add album page goes here
     
