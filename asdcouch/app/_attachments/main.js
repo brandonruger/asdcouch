@@ -7,7 +7,13 @@ $('#home').on('pageinit', function(){
 });
 
 $(document).on('pageinit', '#addalbum', function(){
-    
+
+	$.couch.db("asdalbums").view("plugin/albums",{
+		success: function(data) {
+			console.log(data);
+			}
+	});
+	
 	//code needed for add album page goes here
     
     //Create function to submit data.
