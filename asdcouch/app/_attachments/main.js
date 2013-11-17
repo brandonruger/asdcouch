@@ -34,6 +34,8 @@ $('#addalbum').on('pageinit', function(){
             //Save data into Local Storage
             localStorage.setItem(generateId, JSON.stringify(itemList));
             alert("Album has been added!");
+            
+       
     }
     
     	function getDataFromLocalStorage() {
@@ -62,23 +64,23 @@ $('#addalbum').on('pageinit', function(){
         }
     }
 	
-    
-    //Dynamically create Edit & Delete Links
-    function createEditDelLinks(key, newListItem) {
-        var editLink = $('<ul><li><a href="#">Edit Item</a></li></ul>').appendTo("#listoflsdata").on("click", editReminder);
-        editLink.key = key;
-        $(editLink).append(newListItem);
-        console.log(editLink.key);
-        
-        //add line break
-        var breakTag = $('br').appendTo("#addalbumform");
-        
-        //add delete single item link
-        var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#listoflsdata").on("click", deleteReminder);
-        deleteLink.key = key;
-        $(deleteLink).append(newListItem);
-                
-    }
+     //Dynamically create Edit & Delete Links
+    	function createEditDelLinks(key, newListItem) {
+	        var editLink = $('<ul><li><a href="#">Edit Item</a></li></ul>').appendTo("#listoflsdata").on("click", editReminder);
+	        editLink.key = key;
+	        $(editLink).append(newListItem);
+	        console.log(editLink.key);
+	        
+	        //add line break
+	        var breakTag = $('br').appendTo("#addalbumform");
+	        
+	        //add delete single item link
+	        var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#listoflsdata").on("click", deleteReminder);
+	        deleteLink.key = key;
+	        $(deleteLink).append(newListItem);
+	                
+    	}
+
     
      //Auto populate Local Storage with data
     function getLsData() {
@@ -125,6 +127,7 @@ $('#addalbum').on('pageinit', function(){
         var askUser = confirm("Are you sure you want to delete this reminder?");
         if (askUser) {
             localStorage.removeItem(this.key);
+            console.log(this.key);
             alert("Reminder was deleted!");
             window.location.reload();
         }else{
