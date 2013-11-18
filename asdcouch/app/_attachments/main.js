@@ -8,10 +8,13 @@ $('#home').on('pageinit', function(){
 
 $(document).on('pageinit', '#addalbum', function(){
 
-	$.couch.db("asdalbums").view("plugin/albums",{
+	$.couch.db("asdmusicapp").view("plugin/albums",{
 		success: function(data) {
 			console.log(data);
-			}
+			},
+		error: function(data) {
+		console.log(data);
+		}
 	});
 	
 	//code needed for add album page goes here
