@@ -8,7 +8,7 @@ $('#home').on('pageinit', function(){
 
 $(document).on('pageinit', '#addalbum', function(){
 
-	$.couch.db("asdmusicapp").view("default/all",{
+	$.couch.db("asdmusicapp").view("app/albums",{
 		success: function(data) {
 			console.log(data);
 			},
