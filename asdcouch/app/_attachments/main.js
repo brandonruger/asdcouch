@@ -8,12 +8,12 @@ $('#home').on('pageinit', function(){
 
 $(document).on('pageinit', '#addalbum', function(){
 
-	$.couch.db("asdmusicapp").view("plugin/albums",{
+	$.couch.db("asdmusicapp").view("default/all",{
 		success: function(data) {
 			console.log(data);
 			},
-		error: function(data) {
-		console.log(data);
+		error: function(status) {
+		console.log(status);
 		}
 	});
 	
