@@ -29,8 +29,8 @@ $(document).on('pageinit', '#addalbum', function(){
 				.append($('<li>').text(date))
 				.append($('<li>').text(notes))
 				//Create Edit & Delete Links for each item
-				.append($('<a>').attr("href", "#").attr("id", "editlink").text("Edit Album"))
-				.append($('<a>').attr("href", "#").attr("id", "deletelink").text("Delete Album"))
+				.append('<li><a href="#" id="editlink">Edit Album</a></li>')
+				.append('<li><a href="#" id="deletelink">Delete Album</a></li>')
 				);
 				
 		       })
@@ -50,7 +50,23 @@ $(document).on('pageinit', '#addalbum', function(){
 	})
 	
 	//What to do when delete links are clicked:
-	$('#deletelink').on("click", function(){
+	$('#deletelink').on("click", function(e){
+		e.preventDefault();
+	
+		var keyId = $(this).data('key');
+		var rev = $(this).data('rev');
+		
+		//Assign key and rev #'s to document.
+		var myDoc = {};
+		myDoc._id = keyId;
+		myDoc._rev = rev;
+		
+		$.couch.db('asdmusicapp').removeDoc(myDoc, {
+			success: function() {console.log('Data has been deleted.')},
+			error: function() {console.log('Data did not delete correctly, please fix error.')}
+		});
+		
+		
 		
 	})
 	
@@ -85,7 +101,12 @@ $(document).on('pageinit', '#addalbum', function(){
 		    
 		    //Save Data Into Couch
 		    $.couch.db('asdmusicapp').saveDoc(itemList, {
-			success: function() {console.log("Data has been saved correctly.")},
+			success: function() {
+				console.log("Data has been saved correctly.")
+				
+				
+				
+				},
 			error: function() {console.log("Data did not save, need to fix error!")}
 		    });
 		
