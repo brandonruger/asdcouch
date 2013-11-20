@@ -10,7 +10,8 @@ $(document).on('pageinit', '#addalbum', function(){
 
 	//Function to pull data from app in order to view object in the console.
 	
-	$('#displaycouchdata').on("click", function() {
+	$('#displaycouchdata').on("click", function(e) {
+		e.preventDefault();
 		$('#addalbumform').css("display", "none");
 		$.couch.db("asdmusicapp").view("app/albums",{
 			success: function(data){
@@ -39,7 +40,8 @@ $(document).on('pageinit', '#addalbum', function(){
 				$('#listofcouchdata').listview('refresh');
 		       
 				//What to do when delete links are clicked:
-				$('.deletelink').on("click", function(){
+				$('.deletelink').on("click", function(e){
+					e.preventDefault();
 					console.log("attempting to run delete link function");
 			 
 					//Assign key and rev #'s to document.
@@ -123,14 +125,11 @@ $(document).on('pageinit', '#addalbum', function(){
 		    itemList.notes     = $("#notes").val();
 		    
 		    
-		    //Save Data Into Couch
-		    $.couch.db('asdmusicapp').saveDoc(itemList, {
+		//Save Data Into Couch
+		$.couch.db('asdmusicapp').saveDoc(itemList, {
 			success: function() {
-				console.log("Data has been saved correctly.")
-				
-				
-				
-				},
+			console.log("Data has been saved correctly.")
+			},
 			error: function() {console.log("Data did not save, need to fix error!")}
 		    });
 		
