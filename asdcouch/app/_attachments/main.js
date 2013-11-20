@@ -16,59 +16,83 @@ $(document).on('pageinit', '#addalbum', function(){
 			success: function(data){
 				//This will loop through all the data in my json object.
 				//data.rows is because rows is the first section within the data that I need to loop through.
-		       $.each(data.rows, function(index, value){
-		       var artist = value.value.artist;
-		       var album = value.value.album;
-		       var format = value.value.format;
-		       var date = value.value.date;
-		       var notes = value.value.notes;
-		       $('#listofcouchdata').append(
-				$('<li>').text(artist)
-				.append($('<li>').text(album))
-				.append($('<li>').text(format))
-				.append($('<li>').text(date))
-				.append($('<li>').text(notes))
-				//Create Edit & Delete Links for each item
-				.append('<li><a href="#" id="editlink">Edit Album</a></li>')
-				.append('<li><a href="#" id="deletelink">Delete Album</a></li>')
-				);
-				
-		       })
+				$.each(data.rows, function(index, value){
+					//var keyId = $(this).data('key');
+					//var rev = $(this).data('rev');
+					var artist = value.value.artist;
+					var album = value.value.album;
+					var format = value.value.format;
+					var date = value.value.date;
+					var notes = value.value.notes;
+					$('#listofcouchdata').append(
+						 $('<li>').text(artist)
+						 .append($('<li>').text(album))
+						 .append($('<li>').text(format))
+						 .append($('<li>').text(date))
+						 .append($('<li>').text(notes))
+						 //Create Edit & Delete Links for each item
+						 .append('<li><a href="#" class="editlink">Edit Album</a></li>')
+						 .append('<li><a href="#" class="deletelink">Delete Album</a></li>')
+						 );
+			       })
 		       
-		       $('#listofcouchdata').listview('refresh');
+				$('#listofcouchdata').listview('refresh');
+		       
+				//What to do when delete links are clicked:
+				$('.deletelink').on("click", function(){
+					console.log("attempting to run delete link function");
+			 
+					//Assign key and rev #'s to document.
+					var keyId = $(this).data('key');
+					var rev = $(this).data('rev');
+					 
+					var myDoc = {};
+					myDoc._id = keyId;
+					myDoc._rev = rev;
+						 
+					$.couch.db('asdmusicapp').removeDoc(myDoc, {
+					success: function(data) {console.log('Data has been deleted.')},
+					error: function(status) {console.log('Data did not delete correctly, please fix error.')}
+					});
+											 
+				})
 		    },
 		    error: function(error, parseerror){
 			console.log(error, parseerror)
-		    }
-		});
+		    },
+		    
+		    
+		    
+		    
+		}
+		
+		
+		
+		);
 	});
 	
 	//What to do when edit links are clicked:
-	$('#editlink').on("click", function (){
+	$('.editlink').on("click", function (){
 		
 		
 	})
 	
-	//What to do when delete links are clicked:
-	$('#deletelink').on("click", function(e){
-		e.preventDefault();
+	////What to do when delete links are clicked:
+	//$('.deletelink').on("click", function(){
+	//	console.log("attempting to run delete link function");
+	//
+	//	//Assign key and rev #'s to document.
+	//	var myDoc = {};
+	//	myDoc._id = keyId;
+	//	myDoc._rev = rev;
+	//		
+	//	$.couch.db('asdmusicapp').removeDoc(myDoc, {
+	//	success: function(data) {console.log('Data has been deleted.')},
+	//	error: function(status) {console.log('Data did not delete correctly, please fix error.')}
+	//	});
+	//							
+	//})
 	
-		var keyId = $(this).data('key');
-		var rev = $(this).data('rev');
-		
-		//Assign key and rev #'s to document.
-		var myDoc = {};
-		myDoc._id = keyId;
-		myDoc._rev = rev;
-		
-		$.couch.db('asdmusicapp').removeDoc(myDoc, {
-			success: function() {console.log('Data has been deleted.')},
-			error: function() {console.log('Data did not delete correctly, please fix error.')}
-		});
-		
-		
-		
-	})
 	
 	//What to do when save button is clicked:
 	$('#saveAlbumButton').on("click", function(e){
@@ -78,15 +102,15 @@ $(document).on('pageinit', '#addalbum', function(){
 		if ($('#key').val() == '') {
 		    var generateId = Math.floor(Math.random()*100000001);
 		    
-		    itemList._id = generateId;
+		    itemList._id = "cd:" + generateId;
 		    itemList._rev = rev;
 		    
 		}else{
 		    //Set the id to the existing key we're editing, so it will save over the data.
-		    generateId = $('#key').val();
+		    var generateId = $('#key').val();
 		    
-		    itemList._id = generateId;
-		    itemList._rev = rev;
+		    //itemList._id = generateId;
+		    //itemList._rev = rev;
 		};
 		
 		//Gather up all our form field values and store in an object.
@@ -248,48 +272,3 @@ $(document).on('pageinit', '#addalbum', function(){
 
         
 });
-
-//$('#jsonpage').on('pageinit', function(){
-//    //code needed for home page goes here
-//    
-//    //Retrieve JSON data from Ajax
-//    
-//    function getJsonDataFromAjax(){
-//    	$('#jsonbutton').css("display", "none"); //This will hide JSON button when user clicks it, so only data shows.
-//        $.ajax({
-//            url: '_view/albums',
-//            type: 'GET',
-//            dataType: 'json',
-//            success: function(data){
-//			//This will loop through all the data in my json object.
-//			//data.rows is because rows is the first section within the data that I need to loop through.
-//               $.each(data.rows, function(index, value){
-//               console.log(value);
-//               var artist = value.value.artist;
-//               var album = value.value.album;
-//               var format = value.value.format;
-//               var date = value.value.date;
-//               var notes = value.value.notes;
-//               $('#jsonlist').append(
-//               		$('<li>').text(artist)
-//               		.append($('<li>').text(album))
-//               		.append($('<li>').text(format))
-//               		.append($('<li>').text(date))
-//               		.append($('<li>').text(notes))               		
-//               		);
-//               		
-//               })
-//               
-//               $('#jsonlist').listview('refresh');
-//            },
-//            error: function(error, parseerror){
-//                console.log(error, parseerror)
-//            }
-//        })
-//    }
-//    
-//    
-//    var displayJsonData = $("#jsonbutton");
-//    displayJsonData.on("click", getJsonDataFromAjax);
-//    
-//});
