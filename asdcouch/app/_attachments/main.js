@@ -152,13 +152,13 @@ $(document).on('pageinit', '#addalbum', function(){
 		//Gather up all our form field values and store in an object.
 		//Object properties contain array with the form label and input value.
 		var itemList = {};
-		itemList._id	= $(this).data('key');
-		itemList._rev 	= $(this).data('rev');
-		itemList.artist = $("#artist").val();
-		itemList.album  = $("#album").val();
-		itemList.format = $("#format").val();
-		itemList.date   = $("#date").val();
-		itemList.notes  = $("#notes").val();
+		//itemList._id	= $(this).data('key');
+		//itemList._rev 	= $(this).data('rev');
+		itemList.artist = ["Artist's Name:",  $("#artist").val()];
+		itemList.album  = ["Album Title:", $("#album").val()];
+		itemList.format = ["Music Format:", $("#format").val()];
+		itemList.date   = ["Release Date:", $("#date").val()];
+		itemList.notes  = ["Notes:", $("#notes").val()];
 		    
 		    
 		//Save Data Into Couch
