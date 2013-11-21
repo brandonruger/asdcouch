@@ -81,6 +81,7 @@ $(document).on('pageinit', '#addalbum', function(){
 					e.preventDefault();
 					console.log("attempting to run edit function");
 					$('#addalbumform').css("display", "block");
+					$('#listofcouchdata').css("display", "none");
 					
 					
 		
