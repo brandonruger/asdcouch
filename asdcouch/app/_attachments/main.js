@@ -20,11 +20,18 @@ $(document).on('pageinit', '#addalbum', function(){
 				$.each(data.rows, function(index, value){
 					//var keyId = $(this).data('key');
 					//var rev = $(this).data('rev');
+					var keyId = value.value.key;
+					var rev = value.value.rev;
 					var artist = value.value.artist;
 					var album = value.value.album;
 					var format = value.value.format;
 					var date = value.value.date;
 					var notes = value.value.notes;
+					//Assign key and rev #'s to document.
+					//var keyId = $(this).data('key');
+					console.log(keyId);
+					//var rev = $(this).data('rev');
+					console.log(rev);
 					$('#listofcouchdata').append(
 						 $('<li>').text(artist)
 						 .append($('<li>').text(album))
@@ -32,10 +39,13 @@ $(document).on('pageinit', '#addalbum', function(){
 						 .append($('<li>').text(date))
 						 .append($('<li>').text(notes))
 						 //Create Edit & Delete Links for each item
-						 .append('<li><a href="#" class="editlink">Edit Album</a></li>')
-						 .append('<li><a href="#" class="deletelink">Delete Album</a></li>')
+						 .append('<li><a href="#" class="editlink" data-key=' + keyId + ' data-rev=' + rev + '>Edit Album</a></li>')
+						 .append('<li><a href="#" class="deletelink" data-key=' + keyId + ' data-rev=' + rev + '>Delete Album</a></li>')
 						 );
+					
 			       })
+				
+				
 		       
 				$('#listofcouchdata').listview('refresh');
 		       
@@ -45,13 +55,17 @@ $(document).on('pageinit', '#addalbum', function(){
 					console.log("attempting to run delete link function");
 			 
 					//Assign key and rev #'s to document.
-					var keyId = $(this).data('key');
-					var rev = $(this).data('rev');
-					 
+					//var keyId = $(this).data('key');
+					//var rev = $(this).data('rev');
+					// 
 					var myDoc = {};
-					myDoc._id = keyId;
-					myDoc._rev = rev;
-						 
+					myDoc._id = $(this).data('key');
+					myDoc._rev = $(this).data('rev');
+					//
+					console.log(myDoc);
+					//console.log(keyId);
+					//console.log(rev);
+					//	 
 					$.couch.db('asdmusicapp').removeDoc(myDoc, {
 					success: function(data) {console.log('Data has been deleted.')},
 					error: function(status) {console.log('Data did not delete correctly, please fix error.')}
@@ -269,5 +283,8 @@ $(document).on('pageinit', '#addalbum', function(){
     //var saveData = $("#saveAlbumButton");
     //saveData.on("click", submitData);
 
+	//Global Variables
+	
+	
         
 });
