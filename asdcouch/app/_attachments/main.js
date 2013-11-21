@@ -67,10 +67,23 @@ $(document).on('pageinit', '#addalbum', function(){
 					//console.log(rev);
 					//	 
 					$.couch.db('asdmusicapp').removeDoc(myDoc, {
-					success: function(data) {console.log('Data has been deleted.')},
+					success: function(data) {
+						console.log('Data has been deleted.');
+						$('#listofcouchdata').listview('refresh');
+						},
 					error: function(status) {console.log('Data did not delete correctly, please fix error.')}
 					});
 											 
+				})
+				
+				//What to do when edit links are clicked:
+				$('.editlink').on("click", function (e){
+					e.preventDefault();
+					console.log("attempting to run edit function");
+					$('#addalbumform').css("display", "block");
+					
+					
+		
 				})
 		    },
 		    error: function(error, parseerror){
@@ -87,39 +100,16 @@ $(document).on('pageinit', '#addalbum', function(){
 		);
 	});
 	
-	//What to do when edit links are clicked:
-	$('.editlink').on("click", function (){
-		
-		
-	})
-	
-	////What to do when delete links are clicked:
-	//$('.deletelink').on("click", function(){
-	//	console.log("attempting to run delete link function");
-	//
-	//	//Assign key and rev #'s to document.
-	//	var myDoc = {};
-	//	myDoc._id = keyId;
-	//	myDoc._rev = rev;
-	//		
-	//	$.couch.db('asdmusicapp').removeDoc(myDoc, {
-	//	success: function(data) {console.log('Data has been deleted.')},
-	//	error: function(status) {console.log('Data did not delete correctly, please fix error.')}
-	//	});
-	//							
-	//})
-	
-	
 	//What to do when save button is clicked:
 	$('#saveAlbumButton').on("click", function(e){
 		e.preventDefault();
 		
 		//If there is no key, this means this is a brand new item and we need a new key.
 		if ($('#key').val() == '') {
-		    var generateId = Math.floor(Math.random()*100000001);
+		    var randomNum = Math.floor(Math.random()*100000001);
 		    
-		    itemList._id = "cd:" + generateId;
-		    itemList._rev = rev;
+		    var generateId = "cd:" + randomNum;
+		    console.log(generateId);
 		    
 		}else{
 		    //Set the id to the existing key we're editing, so it will save over the data.
@@ -132,11 +122,12 @@ $(document).on('pageinit', '#addalbum', function(){
 		//Gather up all our form field values and store in an object.
 		//Object properties contain array with the form label and input value.
 		var itemList = {};
-		    itemList.artist    = $("#artist").val();
-		    itemList.album     = $("#album").val();
-		    itemList.format    = $("#format").val();
-		    itemList.date      = $("#date").val();
-		    itemList.notes     = $("#notes").val();
+		itemList._id	= $("#key").val();
+		itemList.artist = $("#artist").val();
+		itemList.album  = $("#album").val();
+		itemList.format = $("#format").val();
+		itemList.date   = $("#date").val();
+		itemList.notes  = $("#notes").val();
 		    
 		    
 		//Save Data Into Couch
