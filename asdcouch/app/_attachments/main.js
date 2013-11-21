@@ -69,9 +69,8 @@ $(document).on('pageinit', '#addalbum', function(){
 					$.couch.db('asdmusicapp').removeDoc(myDoc, {
 					success: function(data) {
 						console.log('Data has been deleted.');
-						$('#listofcouchdata').listview('refresh');
 						},
-					error: function(status) {console.log('Data did not delete correctly, please fix error.')}
+					error: function(status) {console.log('Data did not delete correctly, please fix error.');}
 					});
 											 
 				})
@@ -82,6 +81,21 @@ $(document).on('pageinit', '#addalbum', function(){
 					console.log("attempting to run edit function");
 					$('#addalbumform').css("display", "block");
 					$('#listofcouchdata').css("display", "none");
+					
+					var docId = $(this).data('key');
+					
+					
+					$.couch.db('asdmusicapp').openDoc(docId,{
+						success: function(data) {
+							console.log('Data can be edited');
+							console.log(docId);
+							console.log(doc.artist[1]);
+							$('#artist').val(doc.artist[1]);
+						},
+						error: function(status) {
+							console.log ('Error trying to edit data. Need to fix');
+						}
+					});
 					
 					
 		
@@ -106,24 +120,31 @@ $(document).on('pageinit', '#addalbum', function(){
 		e.preventDefault();
 		
 		//If there is no key, this means this is a brand new item and we need a new key.
-		if ($('#key').val() == '') {
+		if ($('key').val() == '' || $('rev').val() == '') {
 		    var randomNum = Math.floor(Math.random()*100000001);
 		    
 		    var generateId = "cd:" + randomNum;
+		    var rev = "1-" + randomNum;
 		    console.log(generateId);
+		    console.log(rev);
 		    
 		}else{
 		    //Set the id to the existing key we're editing, so it will save over the data.
-		    var generateId = $('#key').val();
+		    var generateId = $('key').val();
+		    var rev = $('rev').val();
 		    
-		    //itemList._id = generateId;
-		    //itemList._rev = rev;
+		    itemList._id = generateId;
+		    itemList._rev = rev;
+		    
+		    console.log(generateId);
+		    console.log(rev);
 		};
 		
 		//Gather up all our form field values and store in an object.
 		//Object properties contain array with the form label and input value.
 		var itemList = {};
-		itemList._id	= $("#key").val();
+		itemList._id	= generateId;
+		itemList._rev 	= rev;
 		itemList.artist = $("#artist").val();
 		itemList.album  = $("#album").val();
 		itemList.format = $("#format").val();
