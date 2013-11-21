@@ -84,11 +84,16 @@ $(document).on('pageinit', '#addalbum', function(){
 					
 					var docId = $(this).data('key');
 					
+					
+					
+					
 					$.couch.db('asdmusicapp').openDoc(docId,{
 						success: function(data) {
 							console.log('Data can be edited');
-							console.log(docId);
+							//console.log(docId);
 							console.log(data.artist);
+							$('#key').val(data._id[1]);
+							$('#rev').val(data._rev[1]);
 							$('#artist').val(data.artist[1]);
 							$('#album').val(data.album[1]);
 							$('#format').val(data.format[1]);
@@ -147,8 +152,8 @@ $(document).on('pageinit', '#addalbum', function(){
 		//Gather up all our form field values and store in an object.
 		//Object properties contain array with the form label and input value.
 		var itemList = {};
-		//itemList._id	= generateId;
-		//itemList._rev 	= rev;
+		itemList._id	= $(this).data('key');
+		itemList._rev 	= $(this).data('rev');
 		itemList.artist = $("#artist").val();
 		itemList.album  = $("#album").val();
 		itemList.format = $("#format").val();
