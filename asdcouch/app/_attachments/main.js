@@ -37,8 +37,6 @@ $(document).on('pageinit', '#addalbum', function(){
 				//This will loop through all the data in my json object.
 				//data.rows is because rows is the first section within the data that I need to loop through.
 				$.each(data.rows, function(index, value){
-					//var keyId = $(this).data('key');
-					//var rev = $(this).data('rev');
 					var keyId = value.value.key;
 					var rev = value.value.rev;
 					var artist = value.value.artist;
@@ -46,10 +44,9 @@ $(document).on('pageinit', '#addalbum', function(){
 					var format = value.value.format;
 					var date = value.value.date;
 					var notes = value.value.notes;
-					//Assign key and rev #'s to document.
-					//var keyId = $(this).data('key');
+
 					console.log(keyId);
-					//var rev = $(this).data('rev');
+
 					console.log(rev);
 					$('#listofcouchdata').append(
 						 $('<li>').text(artist)
@@ -74,17 +71,12 @@ $(document).on('pageinit', '#addalbum', function(){
 					console.log("attempting to run delete link function");
 			 
 					//Assign key and rev #'s to document.
-					//var keyId = $(this).data('key');
-					//var rev = $(this).data('rev');
-					// 
 					var myDoc = {};
 					myDoc._id = $(this).data('key');
 					myDoc._rev = $(this).data('rev');
-					//
+
 					console.log(myDoc);
-					//console.log(keyId);
-					//console.log(rev);
-					//	 
+
 					$.couch.db('asdmusicapp').removeDoc(myDoc, {
 					success: function(data) {
 						console.log('Data has been deleted.');
@@ -112,7 +104,7 @@ $(document).on('pageinit', '#addalbum', function(){
 					$.couch.db('asdmusicapp').openDoc(myDoc._id,{
 						success: function(data) {
 							console.log('Data can be edited');
-							//console.log(docId);
+
 							console.log(data.artist);
 							$('#key').val(myDoc._id);
 							$('#rev').val(myDoc._rev);
@@ -135,24 +127,18 @@ $(document).on('pageinit', '#addalbum', function(){
 		    error: function(error, parseerror){
 			console.log(error, parseerror)
 		    },
-		    
-		    
-		    
-		    
+
 		}
-		
-		
-		
+
 		);
 	});
 	
 	//What to do when save button is clicked:
-	var saveData = function(){
+	var saveData = function(data){
 		$('#saveAlbumButton').on("click", function(e){
 			e.preventDefault();
-			//
+
 			//If there is no key/rev, this means this is a brand new item and we need a new key/rev.
-			
 			if ($('#key').val() == '') {
 				var keyId = Math.floor(Math.random()*100000001);
 				console.log(keyId);
@@ -162,16 +148,10 @@ $(document).on('pageinit', '#addalbum', function(){
 				console.log(keyId);
 			};
 			
-			
-		
-			
-			
-			
+
 			//Gather up all our form field values and store in an object.
 			//Object properties contain array with the form label and input value.
-			
-			//itemList._id	= $(this).data('key');
-			//itemList._rev 	= $(this).data('rev');
+
 			var itemList = {};
 			itemList._id 	= keyId;
 			itemList.artist = ["Artist's Name:",  $("#artist").val()];
