@@ -7,6 +7,25 @@ $('#home').on('pageinit', function(){
 });
 
 $(document).on('pageinit', '#addalbum', function(){
+	
+	var myForm = $('#addalbumform');
+		    myForm.validate({
+			invalidHandler: function(form, validator) {
+                            errorMsgs.click();
+                            var newHtml = '';
+                            for (var key in validator.submitted) {
+                                var label = $('label[for^="' + key + '"]').not('[generated]');
+                                var legend = label.closest('fieldset').find('.ui-controlgroup-label');
+                                var fieldName = legend.length ? legend.text() : label.text();
+                                newHtml +='<li>' + fieldName +'</li>';
+                            };
+                            $("#errorMessages ul").html(newHtml)
+			},
+			submitHandler: function() {
+		var data = myForm.serializeArray();
+			saveData(data);
+		}
+	});
 
 	//Function to pull data from app in order to view object in the console.
 	
@@ -82,18 +101,21 @@ $(document).on('pageinit', '#addalbum', function(){
 					$('#addalbumform').css("display", "block");
 					$('#listofcouchdata').css("display", "none");
 					
-					var docId = $(this).data('key');
+					var myDoc = {};
+					myDoc._id = $(this).data('key');
+					myDoc._rev = $(this).data('rev');
+					console.log(myDoc);
 					
 					
 					
 					
-					$.couch.db('asdmusicapp').openDoc(docId,{
+					$.couch.db('asdmusicapp').openDoc(myDoc._id,{
 						success: function(data) {
 							console.log('Data can be edited');
 							//console.log(docId);
 							console.log(data.artist);
-							$('#key').val(data._id[1]);
-							$('#rev').val(data._rev[1]);
+							$('#key').val(myDoc._id);
+							$('#rev').val(myDoc._rev);
 							$('#artist').val(data.artist[1]);
 							$('#album').val(data.album[1]);
 							$('#format').val(data.format[1]);
@@ -125,188 +147,51 @@ $(document).on('pageinit', '#addalbum', function(){
 	});
 	
 	//What to do when save button is clicked:
-	$('#saveAlbumButton').on("click", function(e){
-		e.preventDefault();
+	var saveData = function(){
+		$('#saveAlbumButton').on("click", function(e){
+			e.preventDefault();
+			//
+			//If there is no key/rev, this means this is a brand new item and we need a new key/rev.
+			
+			if ($('#key').val() == '') {
+				var keyId = Math.floor(Math.random()*100000001);
+				console.log(keyId);
+			}else{
+				//Set the id to the existing key we're editing, so it will save over the data.
+				var keyId = $(this).data('key');
+				console.log(keyId);
+			};
+			
+			
 		
-		////If there is no key, this means this is a brand new item and we need a new key.
-		//if ($('key').val() == '' || $('rev').val() == '') {
-		//    var randomNum = Math.floor(Math.random()*100000001);
-		//    
-		//    var generateId = "cd:" + randomNum;
-		//    var rev = "1-" + randomNum;
-		//    console.log(generateId);
-		//    console.log(rev);
-		//    
-		//}else{
-		//    //Set the id to the existing key we're editing, so it will save over the data.
-		//    var generateId = $('key').val();
-		//    var rev = $('rev').val();
-		//    
-		//    itemList._id = generateId;
-		//    itemList._rev = rev;
-		//    
-		//    console.log(generateId);
-		//    console.log(rev);
-		//};
-		
-		//Gather up all our form field values and store in an object.
-		//Object properties contain array with the form label and input value.
-		var itemList = {};
-		//itemList._id	= $(this).data('key');
-		//itemList._rev 	= $(this).data('rev');
-		itemList.artist = ["Artist's Name:",  $("#artist").val()];
-		itemList.album  = ["Album Title:", $("#album").val()];
-		itemList.format = ["Music Format:", $("#format").val()];
-		itemList.date   = ["Release Date:", $("#date").val()];
-		itemList.notes  = ["Notes:", $("#notes").val()];
-		    
-		    
-		//Save Data Into Couch
-		$.couch.db('asdmusicapp').saveDoc(itemList, {
-			success: function() {
-			console.log("Data has been saved correctly.")
-			},
-			error: function() {console.log("Data did not save, need to fix error!")}
-		    });
-		
-	})
-	
-	//code needed for add album page goes here
-    
-    //Create function to submit data.
-    //function submitData(key) {
-        
-        
-        
-            
-       
-    //}
-    
-    //	function getDataFromLocalStorage() {
-    //    $('#addalbumform').css("display", "none");
-    //    if (localStorage.length === 0) {
-    //        alert("There is no data in Local Storage so default data was added.");
-    //        getLsData();
-    //    }
-    //    
-    //    //jQuery code to write data from local storage to the browser
-    //    $('<div id="items"><ul></ul></div>').appendTo("#listoflsdata").css("display", "block");
-    //    for (var i=0; i<localStorage.length; i++){
-    //        var newListItem = $('<li></li>').appendTo("#items > ul");
-    //        var key = localStorage.key(i);
-    //        var dataValue = localStorage.getItem(key);
-    //        //Convert string from local storage back to an object.
-    //        var findObject = JSON.parse(dataValue);
-    //        var subList = $('<ul></ul>').appendTo(newListItem);
-    //        for (var n in findObject) {
-    //            var makeNewSubList = $('<li></li>').appendTo(subList)
-    //            var subText = findObject[n][0]+ " " +findObject[n][1];
-    //            makeNewSubList.html(subText);
-    //        }
-    //        createEditDelLinks(localStorage.key(i), newListItem); //Create our edit and delete links for each item in local storage.
-    //
-    //    }
-    //}
-	
-//     //Dynamically create Edit & Delete Links
-//    	function createEditDelLinks(key, newListItem) {
-//	        var editLink = $('<ul><li><a href="#">Edit Item</a></li></ul>').appendTo("#listoflsdata").on("click", editReminder);
-//	        editLink.key = key;
-//	        $(editLink).append(newListItem);
-//	        console.log(editLink.key);
-//	        
-//	        //add line break
-//	        var breakTag = $('br').appendTo("#addalbumform");
-//	        
-//	        //add delete single item link
-//	        var deleteLink = $('<ul><li><a href="#">Delete Item</a></li></ul>').appendTo("#listoflsdata").on("click", deleteReminder);
-//	        deleteLink.key = key;
-//	        $(deleteLink).append(newListItem);
-//	                
-//    	}
-    //
-    //
-    // //Auto populate Local Storage with data
-    //function getLsData() {
-    //    //Store JSON Object into Local Storage.
-    //    for (var n in localStorageData) {
-    //        var id = Math.floor(Math.random()*10000001);
-    //        localStorage.setItem(id, JSON.stringify(localStorageData[n]));
-    //    }
-    //}
-    
-    //function editReminder() {
-    //
-    //	//Grab the data from our item from Local Storage.
-    //    var lsData = localStorage.getItem(this.key);
-    //    console.log(lsData);
-    //    var itemList = JSON.parse(lsData);
-    //    console.log(itemList);
-    //	
-    //	$('#addalbumform').css("display", "block");	//To make form display again.
-    //    $('#listoflsdata').css("display", "none");	//To hide local storage data.
-    //
-    //   
-    //    //Populate form fields with current localStorage values.
-    //    $("#artist").val(itemList.artist[1]);
-    //    $("#album").val(itemList.album[1]);
-    //    $("#format").val(itemList.format[1]);                
-    //    $("#date").val(itemList.date[1]);
-    //    $("#notes").val(itemList.notes[1]);
-    //    
-    //    //Remove the initial listener from the imput 'create reminder' button.
-    //    //createButton.off("click", validateInput);
-    //    //Change Submit button value to Edit button
-    //    $("#saveAlbumButton").val("Update Album");
-    //    var changeButton = $("#saveAlbumButton");
-    //    
-    //    //Save the key value established in this function as a property of the editSubmit event.
-    //    //So that we can use that value when we save the data we edited.
-    //    changeButton.on("click", submitData);
-    //    changeButton.key = this.key;
-    //    
-    //}
-    //
-    //function deleteReminder() {
-    //    var askUser = confirm("Are you sure you want to delete this reminder?");
-    //    if (askUser) {
-    //        localStorage.removeItem(this.key);
-    //        console.log(this.key);
-    //        alert("Reminder was deleted!");
-    //        window.location.reload();
-    //    }else{
-    //        alert("Reminder was NOT deleted.")
-    //    }
-    //}
-    //
-    //function clearLocalStorage() {
-    //    if (localStorage.length === 0) {
-    //        alert("Reminder list is already empty.")
-    //    } else {
-    //        localStorage.clear();
-    //        alert("All Reminders have been deleted!");
-    //        window.location.reload();
-    //        return false;
-    //    }
-    //}
-    
-
-    
-    
-    //var lsData = $("#displaylsdata");
-    //lsData.on("click", getDataFromLocalStorage);
-    //var clearData = $("#clearlsdata");
-    //clearData.on("click", clearLocalStorage);
-    //var editLsData = $("#editData");
-    //editLsData.on("click", editReminder);
-    
-    //Set Link & Submit Click Events
-    
-    //var saveData = $("#saveAlbumButton");
-    //saveData.on("click", submitData);
-
-	//Global Variables
+			
+			
+			
+			//Gather up all our form field values and store in an object.
+			//Object properties contain array with the form label and input value.
+			
+			//itemList._id	= $(this).data('key');
+			//itemList._rev 	= $(this).data('rev');
+			var itemList = {};
+			itemList._id 	= keyId;
+			itemList.artist = ["Artist's Name:",  $("#artist").val()];
+			itemList.album  = ["Album Title:", $("#album").val()];
+			itemList.format = ["Music Format:", $("#format").val()];
+			itemList.date   = ["Release Date:", $("#date").val()];
+			itemList.notes  = ["Notes:", $("#notes").val()];
+			    
+			    
+			//Save Data Into Couch
+			$.couch.db('asdmusicapp').saveDoc(itemList, {
+				success: function() {
+				console.log("Data has been saved correctly.")
+				},
+				error: function() {console.log("Data did not save, need to fix error!")}
+			    });
+			
+		})
+	}
 	
 	
-        
+	
 });

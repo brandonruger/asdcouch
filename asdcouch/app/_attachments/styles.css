@@ -1,6 +1,6 @@
 /* Brandon Ruger
  * ASD 1311
- * Project 1 */
+ * Project 4 */
 
 section > p {
     margin: 0px;
@@ -13,4 +13,8 @@ header > img {
     height: 45px;
     position: absolute;
     right: 0px;
+}
+
+#errorMsgs{
+    display: none;
 }
