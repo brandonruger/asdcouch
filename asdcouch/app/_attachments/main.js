@@ -139,21 +139,23 @@ $(document).on('pageinit', '#addalbum', function(){
 			e.preventDefault();
 
 			//If there is no key/rev, this means this is a brand new item and we need a new key/rev.
-			if ($('#key').val() == '') {
-				var keyId = Math.floor(Math.random()*100000001);
-				console.log(keyId);
-			}else{
-				//Set the id to the existing key we're editing, so it will save over the data.
-				var keyId = $(this).data('key');
-				console.log(keyId);
-			};
+			//Had to comment this out because it keeps causing me to get a docID error in the console.
+			
+			//if ($('#key').val() == '') {
+			//	var keyId = Math.floor(Math.random()*100000001);
+			//	console.log(keyId);
+			//}else{
+			//	//Set the id to the existing key we're editing, so it will save over the data.
+			//	var keyId = $(this).data('key');
+			//	console.log(keyId);
+			//};
 			
 
 			//Gather up all our form field values and store in an object.
 			//Object properties contain array with the form label and input value.
 
 			var itemList = {};
-			itemList._id 	= keyId;
+			//itemList._id 	= keyId;
 			itemList.artist = ["Artist's Name:",  $("#artist").val()];
 			itemList.album  = ["Album Title:", $("#album").val()];
 			itemList.format = ["Music Format:", $("#format").val()];
